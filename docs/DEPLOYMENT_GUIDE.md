@@ -62,19 +62,18 @@ java -Djava.rmi.server.hostname=<host-ip> -cp bin chess.main.Main
 
 4. Host creates the RMI service; clients connect using the host IP.
 
-## Testing Deployment
+## Production Verification
 
-Recommended test stack:
+Recommended production checks:
 
-- JUnit 5 for unit tests.
-- JaCoCo for coverage.
-- A CI job that runs compile, tests, and coverage threshold checks.
+- Compile the application from a clean checkout.
+- Launch the Swing client from the compiled classes.
+- For multiplayer, verify the host and client can connect over the intended RMI port.
 
-Example test command once JUnit is available:
+Example compile command:
 
 ```powershell
-javac -encoding UTF-8 -cp "bin;lib\junit-platform-console-standalone.jar" -d bin\test test\chess\*.java
-java -jar lib\junit-platform-console-standalone.jar --class-path "bin;bin\test" --scan-class-path
+javac -encoding UTF-8 -d bin (Get-ChildItem -Recurse -Filter *.java src | ForEach-Object { $_.FullName })
 ```
 
 ## Operational Notes
