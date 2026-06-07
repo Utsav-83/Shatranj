@@ -1,0 +1,51 @@
+@startuml
+title Java Chess - Use Case Diagram
+
+left to right direction
+
+actor "White Player" as White
+actor "Black Player" as Black
+actor "Remote Player" as Remote
+
+rectangle "Java Chess" {
+  usecase "Start New Game" as UC_New
+  usecase "Select Piece" as UC_Select
+  usecase "View Legal Moves" as UC_Legal
+  usecase "Make Move" as UC_Move
+  usecase "Promote Pawn" as UC_Promote
+  usecase "Castle" as UC_Castle
+  usecase "Capture En Passant" as UC_EP
+  usecase "Undo / Redo Move" as UC_Undo
+  usecase "Save Game" as UC_Save
+  usecase "Load Game" as UC_Load
+  usecase "Detect Check" as UC_Check
+  usecase "Detect Checkmate / Stalemate" as UC_End
+  usecase "Host Multiplayer Game" as UC_Host
+  usecase "Join Multiplayer Game" as UC_Join
+  usecase "Send Remote Move" as UC_Send
+  usecase "Use Chat" as UC_Chat
+}
+
+White --> UC_New
+White --> UC_Select
+White --> UC_Move
+White --> UC_Undo
+White --> UC_Save
+White --> UC_Load
+Black --> UC_Select
+Black --> UC_Move
+Remote --> UC_Join
+Remote --> UC_Send
+Remote --> UC_Chat
+White --> UC_Host
+
+UC_Select --> UC_Legal : includes
+UC_Move --> UC_Check : includes
+UC_Move --> UC_End : includes
+UC_Move --> UC_Promote : extends
+UC_Move --> UC_Castle : extends
+UC_Move --> UC_EP : extends
+UC_Host --> UC_Chat : optional
+UC_Join --> UC_Chat : optional
+
+@enduml

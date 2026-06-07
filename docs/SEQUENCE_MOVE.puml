@@ -1,0 +1,33 @@
+@startuml
+title Java Chess - Local Move Sequence
+
+actor Player
+participant BoardPanel
+participant MoveValidator
+participant MoveHistory
+participant MoveCommand
+participant ChessBoard
+participant GameStateDetector
+participant SidePanel
+
+Player -> BoardPanel: click source square
+BoardPanel -> MoveValidator: getLegalMovesForTurn(source, board, turn)
+MoveValidator --> BoardPanel: legal destinations
+BoardPanel -> Player: highlight legal moves
+
+Player -> BoardPanel: click destination
+BoardPanel -> MoveValidator: validateMove(move, board, turn)
+MoveValidator --> BoardPanel: valid
+BoardPanel -> MoveHistory: execute(command)
+MoveHistory -> MoveCommand: execute()
+MoveCommand -> ChessBoard: movePiece(move)
+ChessBoard --> MoveCommand: captured piece
+MoveCommand --> MoveHistory: done
+MoveHistory --> BoardPanel: command stored
+BoardPanel -> SidePanel: add capture/history
+BoardPanel -> GameStateDetector: analyze(board, nextTurn)
+GameStateDetector --> BoardPanel: active/check/checkmate/stalemate
+BoardPanel -> SidePanel: update turn/result
+BoardPanel -> BoardPanel: refreshBoard()
+
+@enduml
