@@ -77,7 +77,14 @@ public abstract class ChessException extends RuntimeException {
         }
 
         Level effectiveLevel = level == null ? Level.WARNING : level;
-        logger.log(effectiveLevel, getMessage(), this);
+        Throwable cause = getCause();
+
+        if (cause == null) {
+            logger.log(effectiveLevel, getMessage());
+            return;
+        }
+
+        logger.log(effectiveLevel, getMessage(), cause);
     }
 
     /**
